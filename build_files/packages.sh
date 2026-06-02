@@ -3,7 +3,7 @@
 set -ouex pipefail
 
 # --- import helper functions ---
-source ./helper.sh
+source /ctx/helper.sh
 
 # --- Handle COPR repos
 COPR_REPOS=()
@@ -22,7 +22,7 @@ LAYERED_PACKAGES=(
     zsh
 )
 
-dnf5 install --setopt=install_weak_deps=False -y "$LAYERED_PACKAGES[@]"
+dnf5 install --setopt=install_weak_deps=False -y "${LAYERED_PACKAGES[@]}"
 
 # --- disable COPR repos again ---
 for repo in "${COPR_REPOS[@]}"; do
@@ -32,4 +32,6 @@ done
 # --- remove packages ---
 REMOVED_PACKAGES=()
 
-dnf5 -y remove "$REMOVED_PACKAGES[@]"
+if [[ "${#REMOVED_PACKAGES[@]}" -gt 0 ]]; then
+    dnf5 -y remove "${REMOVED_PACKAGES[@]}"
+fi

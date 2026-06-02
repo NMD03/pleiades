@@ -2,8 +2,17 @@
 FROM scratch AS ctx
 COPY build_files /
 
+FROM fedora:latest AS rust-builder
+
+RUN dnf5 -y install cargo rust gcc pkgconf-pkg-config wayland-devel
+RUN cargo install kickoff --locked --root /out
+
 # Base Image
 FROM ghcr.io/ublue-os/base-main:latest
+
+COPY --from=rust-builder /out/bin/kickoff /usr/local/bin/kickoff
+
+COPY system_files/etc /etc
 
 ## Other possible base images include:
 # FROM ghcr.io/ublue-os/bazzite:latest
@@ -35,6 +44,25 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=tmpfs,dst=/tmp \
     /ctx/build.sh
     
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    --mount=type=tmpfs,dst=/tmp \
+    /ctx/packages.sh
+
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    --mount=type=tmpfs,dst=/tmp \
+    /ctx/desktop.sh
+
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    --mount=type=tmpfs,dst=/tmp \
+    /ctx/cleanup.sh
+
+
 ### LINTING
 ## Verify final image and contents are correct.
 RUN bootc container lint
