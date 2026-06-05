@@ -1,0 +1,31 @@
+[font]
+size = 14
+
+[font.normal]
+family = "UbuntuMono Nerd Font"
+
+[window]
+#decorations = "none"
+opacity = 1.0
+blur = true
+
+[window.padding]
+x = 7
+y = 0
+
+[[keyboard.bindings]]
+key = "="
+mods = "Control"
+action = "IncreaseFontSize"
+
+[[keyboard.bindings]]
+key = "-"
+mods = "Control"
+action = "DecreaseFontSize"
+
+[[keyboard.bindings]]
+key = "Tab"
+chars = "\t"  # Ensure Tab sends the correct character
+
+[env]
+TERM = "xterm-256color"
