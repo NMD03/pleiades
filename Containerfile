@@ -11,7 +11,8 @@ RUN dnf5 -y install \
     make \
     pkgconf-pkg-config \
     wayland-devel \
-    fontconfig-devel
+    fontconfig-devel \
+    libxkbcommon-devel
 
 RUN cargo install kickoff --locked --root /out
 
