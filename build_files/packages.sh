@@ -20,8 +20,6 @@ LAYERED_PACKAGES=(
     jq
     yq
     zsh
-    fontconfig
-    libxkbcommon
 )
 
 dnf5 install --setopt=install_weak_deps=False -y "${LAYERED_PACKAGES[@]}"
