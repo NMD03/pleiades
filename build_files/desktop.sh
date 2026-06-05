@@ -19,7 +19,6 @@ dnf5 install --setopt=install_weak_deps=False -y \
     xdg-desktop-portal \
     xdg-desktop-portal-wlr \
     polkit \
-    polkit-gnome-authentication-agent-1
     greetd \
     tuigreet \
     NetworkManager \
