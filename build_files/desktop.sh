@@ -37,7 +37,4 @@ dnf5 install --setopt=install_weak_deps=False -y \
 systemctl enable greetd.service
 systemctl enable NetworkManager.service
 
-install -Dm644 /ctx/files/greetd-config.toml /etc/greetd/config.toml
-install -Dm644 /ctx/files/sway-config /etc/sway/config
-
 dnf5 clean all
