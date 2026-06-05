@@ -19,7 +19,7 @@ dnf5 install --setopt=install_weak_deps=False -y \
     xdg-desktop-portal \
     xdg-desktop-portal-wlr \
     polkit \
-    polkit-gnome \
+    polkit-gnome-authentication-agent-1
     greetd \
     tuigreet \
     NetworkManager \
@@ -29,8 +29,7 @@ dnf5 install --setopt=install_weak_deps=False -y \
     pipewire-pulseaudio \
     wireplumber \
     fontconfig \
-    libxkbcommon \
-    dunst
+    libxkbcommon
 
 # kickoff is built in your rust-builder stage and copied into the final image
 # via Containerfile:
