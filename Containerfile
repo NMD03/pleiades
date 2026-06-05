@@ -4,7 +4,15 @@ COPY build_files /
 
 FROM fedora:latest AS rust-builder
 
-RUN dnf5 -y install cargo rust gcc pkgconf-pkg-config wayland-devel
+RUN dnf5 -y install \
+    cargo \
+    rust \
+    gcc \
+    make \
+    pkgconf-pkg-config \
+    wayland-devel \
+    fontconfig-devel
+
 RUN cargo install kickoff --locked --root /out
 
 # Base Image
