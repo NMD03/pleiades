@@ -34,7 +34,11 @@ dnf5 install --setopt=install_weak_deps=False -y \
 # via Containerfile:
 # COPY --from=rust-builder /out/bin/kickoff /usr/local/bin/kickoff
 
-getent passwd greeter || useradd -r -M -s /sbin/nologin greeter
+if ! getent passwd greeter >/dev/null; then
+    useradd -r -M -d /var/lib/greeter -s /sbin/nologin greeter
+fi
+
+install -d -o greeter -g greeter /var/lib/greeter
 
 systemctl enable greetd.service
 systemctl enable NetworkManager.service
