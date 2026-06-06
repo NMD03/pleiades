@@ -34,12 +34,6 @@ dnf5 install --setopt=install_weak_deps=False -y \
 # via Containerfile:
 # COPY --from=rust-builder /out/bin/kickoff /usr/local/bin/kickoff
 
-if ! getent passwd greeter >/dev/null; then
-    useradd -r -M -d /var/lib/greeter -s /sbin/nologin greeter
-fi
-
-install -d -o greeter -g greeter /var/lib/greeter
-
 # Install Ubuntu Nerd Fonts
 dnf5 install -y curl xz
 
