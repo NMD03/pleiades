@@ -20,6 +20,13 @@ LAYERED_PACKAGES=(
     jq
     yq
     zsh
+    make
+    gcc
+    gcc-c++
+    fd-find
+    nodejs
+    npm
+    fzf
 )
 
 dnf5 install --setopt=install_weak_deps=False -y "${LAYERED_PACKAGES[@]}"

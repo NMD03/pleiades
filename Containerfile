@@ -15,11 +15,13 @@ RUN dnf5 -y install \
     libxkbcommon-devel
 
 RUN cargo install kickoff --locked --root /out
+RUN cargo install bluetui --locked --root /out
 
 # Base Image
 FROM ghcr.io/ublue-os/base-main:latest
 
 COPY --from=rust-builder /out/bin/kickoff /usr/bin/kickoff
+COPY --from=rust-builder /out/bin/bluetui /usr/bin/bluetui
 
 COPY system_files/etc /etc
 
