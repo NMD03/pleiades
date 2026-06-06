@@ -12,7 +12,8 @@ RUN dnf5 -y install \
     pkgconf-pkg-config \
     wayland-devel \
     fontconfig-devel \
-    libxkbcommon-devel
+    libxkbcommon-devel \
+    dbus-devel
 
 RUN cargo install kickoff --locked --root /out
 RUN cargo install bluetui --locked --root /out

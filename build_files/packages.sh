@@ -27,6 +27,8 @@ LAYERED_PACKAGES=(
     nodejs
     npm
     fzf
+    bluez
+    bluez-tools
 )
 
 dnf5 install --setopt=install_weak_deps=False -y "${LAYERED_PACKAGES[@]}"
@@ -42,3 +44,6 @@ REMOVED_PACKAGES=()
 if [[ "${#REMOVED_PACKAGES[@]}" -gt 0 ]]; then
     dnf5 -y remove "${REMOVED_PACKAGES[@]}"
 fi
+
+# --- enable services ---
+systemctl enable bluetooth.service
