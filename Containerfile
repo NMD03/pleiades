@@ -19,7 +19,7 @@ RUN cargo install kickoff --locked --root /out
 # Base Image
 FROM ghcr.io/ublue-os/base-main:latest
 
-COPY --from=rust-builder /out/bin/kickoff /usr/local/bin/kickoff
+COPY --from=rust-builder /out/bin/kickoff /usr/bin/kickoff
 
 COPY system_files/etc /etc
 
