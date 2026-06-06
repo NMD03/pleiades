@@ -34,7 +34,7 @@ dnf5 install --setopt=install_weak_deps=False -y \
 # via Containerfile:
 # COPY --from=rust-builder /out/bin/kickoff /usr/local/bin/kickoff
 
-systemd-sysusers --root=/ --replace=/usr/lib/sysusers.d/greetd.conf /usr/lib/sysusers.d/greetd.conf
+systemd-sysusers /usr/lib/sysusers.d/greetd.conf
 systemd-tmpfiles --create /usr/lib/tmpfiles.d/greetd.conf
 
 # Install Ubuntu Nerd Fonts
