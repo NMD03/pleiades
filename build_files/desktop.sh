@@ -40,6 +40,20 @@ fi
 
 install -d -o greeter -g greeter /var/lib/greeter
 
+# Install Ubuntu Nerd Fonts
+dnf5 install -y curl xz
+
+mkdir -p /usr/share/fonts/nerd-fonts/UbuntuMono
+
+curl -L \
+  https://github.com/ryanoasis/nerd-fonts/releases/latest/download/UbuntuMono.tar.xz \
+  -o /tmp/UbuntuMono.tar.xz
+
+tar -xf /tmp/UbuntuMono.tar.xz \
+  -C /usr/share/fonts/nerd-fonts/UbuntuMono
+
+fc-cache -fv
+
 systemctl enable greetd.service
 systemctl enable NetworkManager.service
 
