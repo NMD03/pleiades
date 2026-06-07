@@ -30,6 +30,7 @@ DESKTOP_PACKAGES=(
     fontconfig 
     libxkbcommon
     zsh
+    zsh-autosuggestions
     bluez
     bluez-tools
     cargo 
@@ -52,7 +53,12 @@ RUST_PACKAGES=(
     bluetui
 )
 
-cargo install "${RUST_PACKAGES[@]}" --locked --root /usr
+export CARGO_HOME=/var/cache/cargo
+mkdir -p "$CARGO_HOME"
+
+for crate in "${RUST_PACKAGES[@]}"; do
+    cargo install "$crate" --locked --root /usr
+done
 
 # Install Ubuntu Nerd Fonts
 dnf5 install -y curl xz

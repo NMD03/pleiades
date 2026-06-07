@@ -26,6 +26,10 @@ LAYERED_PACKAGES=(
     nodejs
     npm
     fzf
+    stow
+    htop
+    fastfetch
+    flatpak
 )
 
 dnf5 install --setopt=install_weak_deps=False -y "${LAYERED_PACKAGES[@]}"
