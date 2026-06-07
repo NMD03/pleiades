@@ -12,3 +12,8 @@ cd ~/.dotfiles
 make
 ```
 
+# Install default flatpak apps
+
+```
+install_pleiades_flatpak
+```
