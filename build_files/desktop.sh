@@ -44,7 +44,7 @@ DESKTOP_PACKAGES=(
     fontconfig-devel 
     libxkbcommon-devel 
     dbus-devel
-    java-21-openjdk-devel
+    java-devel
 )
 
 dnf5 install --setopt=install_weak_deps=False -y "${DESKTOP_PACKAGES[@]}"
