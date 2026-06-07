@@ -44,6 +44,7 @@ DESKTOP_PACKAGES=(
     fontconfig-devel 
     libxkbcommon-devel 
     dbus-devel
+    java-21-openjdk-devel
 )
 
 dnf5 install --setopt=install_weak_deps=False -y "${DESKTOP_PACKAGES[@]}"
@@ -78,12 +79,5 @@ fc-cache -fv
 systemctl enable greetd.service
 systemctl enable NetworkManager.service
 systemctl enable bluetooth.service
-
-# --- set zsh as default ---
-while IFS=: read -r user _ uid _ _ home shell; do
-    if [[ "$uid" -ge 1000 && "$user" != "nobody" ]]; then
-        usermod -s /usr/bin/zsh "$user"
-    fi
-done < /etc/passwd
 
 dnf5 clean all

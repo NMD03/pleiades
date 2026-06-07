@@ -6,6 +6,7 @@ COPY build_files /
 FROM ghcr.io/ublue-os/base-main:latest
 
 COPY system_files/etc /etc
+COPY system_files/usr /usr
 
 ### [IM]MUTABLE /opt
 ## Some bootable images, like Fedora, have /opt symlinked to /var/opt, in order to
