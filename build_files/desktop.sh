@@ -32,14 +32,27 @@ DESKTOP_PACKAGES=(
     zsh
     bluez
     bluez-tools
+    cargo 
+    rust 
+    rust-analyzer 
+    gcc 
+    gcc-c++ 
+    make 
+    pkgconf-pkg-config 
+    wayland-devel 
+    fontconfig-devel 
+    libxkbcommon-devel 
+    dbus-devel
 )
 
 dnf5 install --setopt=install_weak_deps=False -y "${DESKTOP_PACKAGES[@]}"
 
+RUST_PACKAGES=(
+    kickoff
+    bluetui
+)
 
-# kickoff is built in your rust-builder stage and copied into the final image
-# via Containerfile:
-# COPY --from=rust-builder /out/bin/kickoff /usr/local/bin/kickoff
+cargo install "${RUST_PACKAGES[@]}" --locked --root /usr
 
 # Install Ubuntu Nerd Fonts
 dnf5 install -y curl xz

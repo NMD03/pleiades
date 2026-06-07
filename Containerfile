@@ -2,38 +2,10 @@
 FROM scratch AS ctx
 COPY build_files /
 
-FROM fedora:latest AS rust-builder
-
-RUN dnf5 -y install \
-    cargo \
-    rust \
-    gcc \
-    make \
-    pkgconf-pkg-config \
-    wayland-devel \
-    fontconfig-devel \
-    libxkbcommon-devel \
-    dbus-devel
-
-RUN cargo install kickoff --locked --root /out
-RUN cargo install bluetui --locked --root /out
-
 # Base Image
 FROM ghcr.io/ublue-os/base-main:latest
 
-COPY --from=rust-builder /out/bin/kickoff /usr/bin/kickoff
-COPY --from=rust-builder /out/bin/bluetui /usr/bin/bluetui
-
 COPY system_files/etc /etc
-
-## Other possible base images include:
-# FROM ghcr.io/ublue-os/bazzite:latest
-# FROM ghcr.io/ublue-os/bluefin-nvidia:stable
-# 
-# ... and so on, here are more base images
-# Universal Blue Images: https://github.com/orgs/ublue-os/packages
-# Fedora base image: quay.io/fedora/fedora-bootc:41
-# CentOS base images: quay.io/centos-bootc/centos-bootc:stream10
 
 ### [IM]MUTABLE /opt
 ## Some bootable images, like Fedora, have /opt symlinked to /var/opt, in order to
