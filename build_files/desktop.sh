@@ -1,34 +1,41 @@
 #!/usr/bin/bash
 set -ouex pipefail
 
-dnf5 install --setopt=install_weak_deps=False -y \
-    sway \
-    swaybg \
-    swaylock \
-    swayidle \
-    alacritty \
-    i3status \
-    kanshi \
-    dunst \
-    grim \
-    slurp \
-    wl-clipboard \
-    brightnessctl \
-    pamixer \
-    playerctl \
-    xdg-desktop-portal \
-    xdg-desktop-portal-wlr \
-    polkit \
-    greetd \
-    tuigreet \
-    NetworkManager \
-    NetworkManager-wifi \
-    NetworkManager-tui \
-    pipewire \
-    pipewire-pulseaudio \
-    wireplumber \
-    fontconfig \
+DESKTOP_PACKAGES=(
+    sway 
+    swaybg 
+    swaylock 
+    swayidle 
+    alacritty 
+    i3status 
+    kanshi 
+    dunst 
+    grim 
+    slurp 
+    wl-clipboard 
+    brightnessctl 
+    pamixer 
+    playerctl 
+    xdg-desktop-portal 
+    xdg-desktop-portal-wlr 
+    polkit 
+    greetd 
+    tuigreet 
+    NetworkManager 
+    NetworkManager-wifi 
+    NetworkManager-tui 
+    pipewire 
+    pipewire-pulseaudio 
+    wireplumber 
+    fontconfig 
     libxkbcommon
+    zsh
+    bluez
+    bluez-tools
+)
+
+dnf5 install --setopt=install_weak_deps=False -y "${DESKTOP_PACKAGES[@]}"
+
 
 # kickoff is built in your rust-builder stage and copied into the final image
 # via Containerfile:
@@ -48,7 +55,16 @@ tar -xf /tmp/UbuntuMono.tar.xz \
 
 fc-cache -fv
 
+# --- enable services ---
 systemctl enable greetd.service
 systemctl enable NetworkManager.service
+systemctl enable bluetooth.service
+
+# --- set zsh as default ---
+while IFS=: read -r user _ uid _ _ home shell; do
+    if [[ "$uid" -ge 1000 && "$user" != "nobody" ]]; then
+        usermod -s /usr/bin/zsh "$user"
+    fi
+done < /etc/passwd
 
 dnf5 clean all
