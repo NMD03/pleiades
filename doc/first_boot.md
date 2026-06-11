@@ -17,3 +17,11 @@ make
 ```
 install_pleiades_flatpak
 ```
+
+# Setup Incus
+
+```
+sudo usermod -aG incus-admin niclas
+newgrp incus-admin
+sudo incus admin init
+```

@@ -30,6 +30,10 @@ LAYERED_PACKAGES=(
     htop
     fastfetch
     flatpak
+    incus
+    incus-client
+    incus-tools
+    incus-selinux
 )
 
 dnf5 install --setopt=install_weak_deps=False -y "${LAYERED_PACKAGES[@]}"
@@ -45,3 +49,7 @@ REMOVED_PACKAGES=()
 if [[ "${#REMOVED_PACKAGES[@]}" -gt 0 ]]; then
     dnf5 -y remove "${REMOVED_PACKAGES[@]}"
 fi
+
+# --- enable services ---
+systemctl enable incus.service
+getent group incus-admin || groupadd -r incus-admin
