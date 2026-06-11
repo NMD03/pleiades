@@ -24,4 +24,6 @@ install_pleiades_flatpak
 sudo usermod -aG incus-admin niclas
 newgrp incus-admin
 sudo incus admin init
+echo "root:1000000:1000000000" >> /etc/subuid
+echo "root:1000000:1000000000" >> /etc/subgid
 ```
