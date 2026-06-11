@@ -34,6 +34,7 @@ LAYERED_PACKAGES=(
     incus-client
     incus-tools
     incus-selinux
+    shadow-utils
 )
 
 dnf5 install --setopt=install_weak_deps=False -y "${LAYERED_PACKAGES[@]}"
@@ -53,3 +54,5 @@ fi
 # --- enable services ---
 systemctl enable incus.service
 getent group incus-admin || groupadd -r incus-admin
+echo "root:1000000:1000000000" >> /etc/subuid
+echo "root:1000000:1000000000" >> /etc/subgid
