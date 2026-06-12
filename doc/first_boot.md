@@ -32,7 +32,9 @@ sudo systemctl restart incus
 # Distrobox
 
 ```
-distrobox assemble create
+distrobox assemble create --file ~/.config/distrobox/assemble.ini
+distrobox enter fedora-dev
+distrobox enter ubuntu-dev
 podman commit fedora-dev localhost/fedora
 podman commit ubuntu-dev localhost/ubuntu
 ```
