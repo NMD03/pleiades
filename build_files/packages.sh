@@ -6,7 +6,9 @@ set -ouex pipefail
 source /ctx/helper.sh
 
 # --- Handle COPR repos
-COPR_REPOS=()
+COPR_REPOS=(
+    eddsalkield/swaylock-effects
+)
 
 for repo in "${COPR_REPOS[@]}"; do
     dnf5 -y copr enable "$repo"
@@ -35,6 +37,7 @@ LAYERED_PACKAGES=(
     incus-tools
     incus-selinux
     shadow-utils
+    swaylock-effects
 )
 
 dnf5 install --setopt=install_weak_deps=False -y "${LAYERED_PACKAGES[@]}"
