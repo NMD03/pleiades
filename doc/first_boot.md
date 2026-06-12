@@ -21,9 +21,25 @@ install_pleiades_flatpak
 # Setup Incus
 
 ```
-sudo usermod -aG incus-admin niclas
+sudo usermod -aG incus-admin <username>
 newgrp incus-admin
 sudo incus admin init
-echo "root:1000000:1000000000" >> /etc/subuid
-echo "root:1000000:1000000000" >> /etc/subgid
+sudo sh -c 'echo "root:1000000:1000000000" >> /etc/subuid'
+sudo sh -c 'echo "root:1000000:1000000000" >> /etc/subgid'
+sudo systemctl restart incus
+```
+
+# Distrobox
+
+```
+distrobox assemble create
+podman commit fedora-dev localhost/fedora
+podman commit ubuntu-dev localhost/ubuntu
+```
+
+## Create project specific boxes:
+```
+distrobox create \
+    --name <project-name> \
+    --image localhost/<OS>
 ```
