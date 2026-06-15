@@ -40,6 +40,8 @@ LAYERED_PACKAGES=(
     openssl-devel 
     pkgconf-pkg-config 
     perl
+    gnome-keyring
+    libsecret
 )
 
 dnf5 install --setopt=install_weak_deps=False -y "${LAYERED_PACKAGES[@]}"
