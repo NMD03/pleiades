@@ -37,7 +37,9 @@ LAYERED_PACKAGES=(
     incus-tools
     incus-selinux
     shadow-utils
-    # swaylock-effects
+    openssl-devel 
+    pkgconf-pkg-config 
+    perl
 )
 
 dnf5 install --setopt=install_weak_deps=False -y "${LAYERED_PACKAGES[@]}"
