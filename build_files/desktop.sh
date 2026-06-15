@@ -4,7 +4,7 @@ set -ouex pipefail
 DESKTOP_PACKAGES=(
     sway 
     swaybg 
-    swaylock 
+    # swaylock 
     swayidle 
     alacritty 
     i3status 
