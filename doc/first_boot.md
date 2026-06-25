@@ -23,6 +23,7 @@ install_pleiades_flatpak
 ```
 sudo usermod -aG incus-admin <username>
 newgrp incus-admin
+exit
 sudo incus admin init
 sudo sh -c 'echo "root:1000000:1000000000" >> /etc/subuid'
 sudo sh -c 'echo "root:1000000:1000000000" >> /etc/subgid'
@@ -44,4 +45,9 @@ podman commit ubuntu-dev localhost/ubuntu
 distrobox create \
     --name <project-name> \
     --image localhost/<OS>
+```
+
+# Reboot
+```
+reboot
 ```
