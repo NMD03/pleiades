@@ -35,7 +35,7 @@ LAYERED_PACKAGES=(
     incus
     incus-client
     incus-tools
-    incus-selinux
+    container-selinux
     shadow-utils
     openssl-devel 
     pkgconf-pkg-config 
