@@ -47,6 +47,8 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=tmpfs,dst=/tmp \
     /ctx/cleanup.sh
 
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    /ctx/os-release.sh
 
 ### BOOTC-IMAGE-BUILDER COMPAT
 ## Fedora 45+ ships its repo files in /usr/share/dnf5/repos.d, but bootc-image-builder
