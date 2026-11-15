@@ -168,6 +168,13 @@ _build-bib $target_image $tag $type $config: (_rootful_load_image target_image t
 
     BUILDTMP=$(mktemp -p "${PWD}" -d -t _build-bib.XXXXXXXXXX)
 
+    # Point the installed system's updates (kickstart bootc switch) at the
+    # registry tag matching this build, e.g. :dev instead of :latest.
+    CONFIG=$(mktemp -p "${PWD}" -t _build_config.XXXXXXXXXX)
+    trap 'rm -f "$CONFIG"' EXIT
+    sed "s|\(ghcr.io/nmd03/${image_name}\):latest|\1:${tag}|" "${config}" > "$CONFIG"
+    chmod 644 "$CONFIG"
+
     sudo podman run \
       --rm \
       -it \
@@ -175,7 +182,7 @@ _build-bib $target_image $tag $type $config: (_rootful_load_image target_image t
       --pull=newer \
       --net=host \
       --security-opt label=type:unconfined_t \
-      -v $(pwd)/${config}:/config.toml:ro \
+      -v "$CONFIG":/config.toml:ro \
       -v $BUILDTMP:/output \
       -v /var/lib/containers/storage:/var/lib/containers/storage \
       "${bib_image}" \
