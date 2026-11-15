@@ -1,0 +1,134 @@
+#!/usr/bin/env bash
+#
+# pleiades-setup - run the first boot steps for the current user.
+#
+#   pleiades-setup              run all steps in order
+#   pleiades-setup incus ...    run only the given steps
+#   pleiades-setup --list       list available steps
+#
+# Every step is safe to re-run: it checks first and skips work already done.
+#
+# Adding a step:
+#   1. write a function named step_<name>
+#   2. add <name> to STEPS below (order matters)
+#   3. document it in doc/first_boot.md
+
+set -euo pipefail
+
+STEPS=(
+    shell
+    dotfiles
+    flatpaks
+    incus
+    distrobox
+)
+
+DOTFILES_REPO="https://github.com/NMD03/dotfiles"
+DOTFILES_DIR="$HOME/.dotfiles"
+DISTROBOX_FILE="$HOME/.config/distrobox/assemble.ini"
+DISTROBOX_IMAGES=(fedora ubuntu) # box "<name>-dev" is committed as localhost/<name>
+
+log() { printf '\033[1;34m==>\033[0m %s\n' "$*"; }
+skip() { printf '    skip: %s\n' "$*"; }
+
+# --- steps -------------------------------------------------------------------
+
+step_shell() {
+    local current
+    current=$(getent passwd "$USER" | cut -d: -f7)
+    if [[ "$current" == /usr/bin/zsh ]]; then
+        skip "shell is already zsh"
+        return
+    fi
+    sudo usermod -s /usr/bin/zsh "$USER"
+}
+
+step_dotfiles() {
+    if [[ -d "$DOTFILES_DIR" ]]; then
+        skip "$DOTFILES_DIR exists, not cloning"
+    else
+        git clone --recurse-submodules "$DOTFILES_REPO" "$DOTFILES_DIR"
+    fi
+    make -C "$DOTFILES_DIR"
+}
+
+step_flatpaks() {
+    # flatpak skips apps that are already installed
+    install_pleiades_flatpak
+}
+
+step_incus() {
+    if id -nG "$USER" | grep -qw incus-admin; then
+        skip "$USER is already in incus-admin"
+    else
+        sudo usermod -aG incus-admin "$USER"
+        REBOOT_NEEDED=1
+    fi
+
+    if [[ -n "$(sudo incus storage list --format csv)" ]]; then
+        skip "incus is already initialized"
+    else
+        sudo incus admin init
+    fi
+}
+
+step_distrobox() {
+    if [[ ! -f "$DISTROBOX_FILE" ]]; then
+        echo "    $DISTROBOX_FILE not found, run the dotfiles step first" >&2
+        return 1
+    fi
+    distrobox assemble create --file "$DISTROBOX_FILE"
+
+    local name
+    for name in "${DISTROBOX_IMAGES[@]}"; do
+        if podman image exists "localhost/$name"; then
+            skip "localhost/$name already exists"
+            continue
+        fi
+        distrobox enter "$name-dev" -- true # finish first-time box setup
+        podman commit "$name-dev" "localhost/$name"
+    done
+}
+
+# --- runner ------------------------------------------------------------------
+
+REBOOT_NEEDED=0
+
+usage() {
+    sed -n '3,8p' "$0" | sed 's/^# \{0,1\}//'
+}
+
+main() {
+    if [[ $EUID -eq 0 ]]; then
+        echo "Run as your normal user, not root (sudo is used where needed)." >&2
+        exit 1
+    fi
+
+    case "${1:-}" in
+        -h | --help) usage; exit 0 ;;
+        -l | --list) printf '%s\n' "${STEPS[@]}"; exit 0 ;;
+    esac
+
+    local steps=("$@")
+    if [[ ${#steps[@]} -eq 0 ]]; then steps=("${STEPS[@]}"); fi
+
+    local step
+    for step in "${steps[@]}"; do
+        if ! declare -F "step_$step" >/dev/null; then
+            echo "Unknown step: $step (see --list)" >&2
+            exit 1
+        fi
+    done
+
+    for step in "${steps[@]}"; do
+        log "$step"
+        "step_$step"
+    done
+
+    log "done"
+    if [[ $REBOOT_NEEDED -eq 1 ]]; then
+        echo "Reboot so the new group membership takes effect."
+    fi
+}
+
+main "$@"
