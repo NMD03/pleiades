@@ -1,6 +1,6 @@
 # Background color
 color=#191724
-image=/home/niclas/wallpaper/pleiades.png
+image=/etc/sway/wallpaper/pleiades.png
 scaling=fill
 
 # Layout text colors
