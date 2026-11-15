@@ -41,6 +41,7 @@ LAYERED_PACKAGES=(
     pkgconf-pkg-config 
     perl
     gnome-keyring
+    gnome-keyring-pam # unlocks the keyring at greetd login (see /usr/lib/pam.d/greetd)
     libsecret
 )
 
