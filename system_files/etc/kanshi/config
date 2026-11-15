@@ -11,7 +11,6 @@ profile work {
     exec sh -c 'pgrep -x alacritty >/dev/null || exec alacritty'
     exec sh -c 'pgrep -x firefox   >/dev/null || exec firefox'
     exec sh -c 'pgrep -x element-desktop >/dev/null || exec element-desktop'
-    exec sh -c 'pgrep -x keepassxc >/dev/null || exec keepassxc'
     exec sh -c 'pgrep -x thunderbird >/dev/null || exec thunderbird'
 
     # Set Focus
@@ -29,7 +28,6 @@ profile home {
     exec sh -c 'pgrep -x alacritty >/dev/null || exec alacritty'
     exec sh -c 'pgrep -x firefox   >/dev/null || exec firefox'
     exec sh -c 'pgrep -x element-desktop >/dev/null || exec element-desktop'
-    exec sh -c 'pgrep -x keepassxc >/dev/null || exec keepassxc' 
 
     # Set Focus
     exec swaymsg 'workspace "2:web"'
