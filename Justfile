@@ -190,7 +190,11 @@ _build-bib $target_image $tag $type $config: (_rootful_load_image target_image t
       "${target_image}:${tag}"
 
     mkdir -p output
-    sudo mv -f $BUILDTMP/* output/
+    # Replace results of a previous build (mv can't overwrite non-empty dirs)
+    for result in "$BUILDTMP"/*; do
+        sudo rm -rf "output/$(basename "$result")"
+        sudo mv "$result" output/
+    done
     sudo rmdir $BUILDTMP
     sudo chown -R $USER:$USER output/
 
