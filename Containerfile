@@ -48,6 +48,14 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     /ctx/cleanup.sh
 
 
+### BOOTC-IMAGE-BUILDER COMPAT
+## Fedora 45+ ships its repo files in /usr/share/dnf5/repos.d, but bootc-image-builder
+## only reads /etc/yum.repos.d when depsolving the anaconda-iso installer.
+RUN for r in fedora fedora-updates; do \
+      [ -f /usr/share/dnf5/repos.d/$r.repo ] && [ ! -e /etc/yum.repos.d/$r.repo ] && \
+        cp /usr/share/dnf5/repos.d/$r.repo /etc/yum.repos.d/ || true; \
+    done
+
 ### LINTING
 ## Verify final image and contents are correct.
 RUN bootc container lint
