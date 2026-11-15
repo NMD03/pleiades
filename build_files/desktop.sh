@@ -3,6 +3,7 @@ set -ouex pipefail
 
 DESKTOP_PACKAGES=(
     sway 
+    sway-systemd # starts graphical-session.target, required by xdg-desktop-portal
     swaybg 
     swaylock 
     swayidle 
