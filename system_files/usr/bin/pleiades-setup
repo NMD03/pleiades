@@ -49,7 +49,26 @@ step_dotfiles() {
     else
         git clone --recurse-submodules "$DOTFILES_REPO" "$DOTFILES_DIR"
     fi
+    backup_stow_conflicts "$DOTFILES_DIR/HOME" "$HOME"
+    backup_stow_conflicts "$DOTFILES_DIR/CONFIG" "$HOME/.config"
     make -C "$DOTFILES_DIR"
+}
+
+# New users get files like ~/.zshrc from /etc/skel. Stow refuses to replace
+# real files, so move them to <file>.pre-pleiades before stowing.
+backup_stow_conflicts() {
+    local package=$1 target_dir=$2 entry name target
+    [[ -d "$package" ]] || return 0
+    for entry in "$package"/* "$package"/.[!.]*; do
+        [[ -e "$entry" ]] || continue
+        name=$(basename "$entry")
+        name=${name/#dot-/.} # stow --dotfiles: dot-zshrc -> .zshrc
+        target="$target_dir/$name"
+        if [[ -f "$target" && ! -L "$target" ]]; then
+            mv "$target" "$target.pre-pleiades"
+            echo "    moved $target to $target.pre-pleiades"
+        fi
+    done
 }
 
 step_flatpaks() {
