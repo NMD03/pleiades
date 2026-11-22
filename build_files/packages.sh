@@ -35,6 +35,17 @@ LAYERED_PACKAGES=(
     incus
     incus-client
     incus-tools
+    # VMs: Incus (`incus launch --vm`) and plain QEMU
+    qemu-kvm-core
+    qemu-system-x86-core
+    edk2-ovmf # UEFI firmware
+    incus-agent # `incus exec`/file transfer inside VMs
+    swtpm # virtual TPM
+    virtiofsd # share host folders into VMs
+    qemu-img
+    qemu-ui-gtk # QEMU window on the desktop
+    qemu-ui-opengl
+    qemu-audio-pipewire
     container-selinux
     docker-compose # for `podman compose`, talks to podman.socket
     shadow-utils

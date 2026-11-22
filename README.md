@@ -35,4 +35,5 @@ The [`Containerfile`](./Containerfile) starts from Universal Blue’s Fedora-bas
 - [Desktop environment](./doc/desktop.md)
 - [External monitors and shortcuts](./doc/monitors.md)
 - [First boot setup](./doc/first_boot.md)
+- [Distrobox (dev boxes and tools)](./doc/distrobox.md)
 - [Backups](./doc/backup.md)

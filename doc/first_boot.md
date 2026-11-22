@@ -89,12 +89,8 @@ podman commit fedora-dev localhost/fedora
 podman commit ubuntu-dev localhost/ubuntu
 ```
 
-## Create project specific boxes:
-```
-distrobox create \
-    --name <project-name> \
-    --image localhost/<OS>
-```
+New project boxes, the `tools` box and exporting tools to the host:
+see [distrobox.md](./distrobox.md).
 
 # Backups (optional)
 
