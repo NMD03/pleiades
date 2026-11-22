@@ -1,5 +1,5 @@
 /* Pleiades lock screen: styled like tuigreet (black, monospace, framed box).
-   Used by `gtklock -s /etc/xdg/gtklock/style.css` from the sway config. */
+   gtklock loads it automatically; ~/.config/gtklock/style.css overrides it. */
 window {
   background: #000000;
   font-family: "UbuntuMono Nerd Font Mono", monospace;

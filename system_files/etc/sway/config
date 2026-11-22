@@ -240,16 +240,15 @@ bindsym $mod+r mode "resize"
 bindsym Ctrl+Alt+delete exec sh -c 'dunstify "Nice Try!" "Maybe next time :(" -a sway-system -t 1500'
 
 # Automatically turn off screen when locked
-# Screen off 10 s after locking, lock after 5 min idle, screen off after 10 min,
-# always lock before suspend
+# Screen off 10 s after locking (no automatic locking while idle).
+# before-sleep: lock when the system suspends (e.g. lid closed), so it never
+# wakes up unlocked; delete that line to disable it.
 exec swayidle -w \
     timeout 10 'pgrep -x gtklock && swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-    timeout 300 'gtklock -d -s /etc/xdg/gtklock/style.css' \
-    timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-    before-sleep 'gtklock -d -s /etc/xdg/gtklock/style.css'
+    before-sleep 'gtklock -d'
 
 # Custom Keybindings
-bindsym $mod+Ctrl+l exec gtklock -d -s /etc/xdg/gtklock/style.css
+bindsym $mod+Ctrl+l exec gtklock -d
 bindsym --locked $mod+Shift+n exec sh -c 'if [ "$(dunstctl get-pause-level)" = "0" ]; then dunstify -a sway-system "Notifications" "Disabled" -t 1500; dunstctl set-pause-level 100; else dunstctl set-pause-level 0; dunstify -a sway-system "Notifications" "Enabled" -t 1500; fi'
 
 # Monitors (see doc/monitors.md in the pleiades repo)
