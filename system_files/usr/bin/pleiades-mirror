@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+#
+# pleiades-mirror - toggle mirroring the focused screen onto another screen.
+#
+#   pleiades-mirror              mirror focused output onto the first other output
+#   pleiades-mirror SRC [DST]    mirror output SRC onto DST
+#
+# Running it again while a mirror is active stops the mirror.
+# Output names: swaymsg -t get_outputs
+
+set -euo pipefail
+
+notify() { dunstify -a sway-system "Mirror" "$1" -t 2000 || true; }
+
+if pkill -x wl-mirror; then
+    notify "Stopped"
+    exit 0
+fi
+
+outputs=$(swaymsg -t get_outputs -r)
+
+source=${1:-$(jq -r '.[] | select(.focused) | .name' <<<"$outputs")}
+target=${2:-$(jq -r --arg src "$source" \
+    '[.[] | select(.active and .name != $src)][0].name // empty' <<<"$outputs")}
+
+if [[ -z "$target" ]]; then
+    notify "No other screen connected"
+    exit 1
+fi
+
+notify "$source → $target"
+exec wl-mirror --fullscreen-output "$target" "$source"

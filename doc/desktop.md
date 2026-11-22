@@ -19,3 +19,7 @@ Sway is used as desktop environment using the following additional software:
 ## Config
 
 After initial boot a minimal working sway config is used. Later this config can be overwritten using the dotfiles-repo or any other custom config file.
+
+## Monitors
+
+See [monitors.md](./monitors.md) for external monitors, mirroring and the most important shortcuts.
