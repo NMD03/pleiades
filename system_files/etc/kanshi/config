@@ -10,7 +10,7 @@ profile work {
     # Launch Apps
     exec sh -c 'pgrep -x alacritty >/dev/null || exec alacritty'
     exec sh -c 'pgrep -x firefox   >/dev/null || exec firefox'
-    exec sh -c 'pgrep -x element-desktop >/dev/null || exec element-desktop'
+    exec sh -c 'pgrep -x element-desktop >/dev/null || exec flatpak run im.riot.Riot --password-store=gnome-libsecret'
     exec sh -c 'pgrep -x thunderbird >/dev/null || exec thunderbird'
 
     # Set Focus
@@ -27,7 +27,7 @@ profile home {
     # Launch Apps
     exec sh -c 'pgrep -x alacritty >/dev/null || exec alacritty'
     exec sh -c 'pgrep -x firefox   >/dev/null || exec firefox'
-    exec sh -c 'pgrep -x element-desktop >/dev/null || exec element-desktop'
+    exec sh -c 'pgrep -x element-desktop >/dev/null || exec flatpak run im.riot.Riot --password-store=gnome-libsecret'
 
     # Set Focus
     exec swaymsg 'workspace "2:web"'

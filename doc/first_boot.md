@@ -40,6 +40,17 @@ Run this in the local session (not over SSH), polkit allows it for `wheel` users
 install_pleiades_flatpak
 ```
 
+## Element
+
+Element is installed by the step above, which also lets it access the keyring.
+Electron doesn't detect the keyring on sway, so start it once with:
+
+```
+flatpak run im.riot.Riot --password-store=gnome-libsecret
+```
+
+Element remembers the setting; afterwards it can be started normally.
+
 # Setup Incus
 
 The root subuid/subgid range is shipped with the image (`/etc/subuid`, `/etc/subgid`).

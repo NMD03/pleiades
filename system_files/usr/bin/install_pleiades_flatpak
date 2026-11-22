@@ -6,3 +6,6 @@ flatpak remote-add --if-not-exists flathub \
 
 xargs -a /usr/share/pleiades/flatpaks \
     flatpak install -y flathub
+
+# Element (Electron) needs direct access to the keyring's Secret Service
+flatpak override --user --talk-name=org.freedesktop.secrets im.riot.Riot
