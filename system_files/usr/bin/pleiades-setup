@@ -2,15 +2,15 @@
 #
 # pleiades-setup - run the first boot steps for the current user.
 #
-#   pleiades-setup              run all steps in order
-#   pleiades-setup incus ...    run only the given steps
+#   pleiades-setup              run all default steps in order
+#   pleiades-setup incus ...    run only the given steps (also optional ones)
 #   pleiades-setup --list       list available steps
 #
 # Every step is safe to re-run: it checks first and skips work already done.
 #
 # Adding a step:
 #   1. write a function named step_<name>
-#   2. add <name> to STEPS below (order matters)
+#   2. add <name> to STEPS (runs by default, order matters) or OPTIONAL_STEPS
 #   3. document it in doc/first_boot.md
 
 set -euo pipefail
@@ -22,6 +22,11 @@ STEPS=(
     incus
     podman
     distrobox
+)
+
+# Only run when named explicitly, e.g. `pleiades-setup backrest`
+OPTIONAL_STEPS=(
+    backrest
 )
 
 DOTFILES_REPO="https://github.com/NMD03/dotfiles"
@@ -119,6 +124,27 @@ step_distrobox() {
     done
 }
 
+# Backrest backup UI as a rootless Quadlet (see doc/backup.md)
+step_backrest() {
+    local unit="$HOME/.config/containers/systemd/backrest.container"
+    if [[ -f "$unit" ]]; then
+        skip "$unit exists, not overwriting"
+    else
+        mkdir -p "$(dirname "$unit")"
+        cp /usr/share/pleiades/backrest.container "$unit"
+    fi
+    mkdir -p "$HOME/.local/share/backrest/data" "$HOME/.local/share/backrest/config" \
+        "$HOME/.cache/backrest" "$HOME/restore"
+
+    # pull first: a slow first pull inside the unit can hit systemd's start timeout
+    podman pull docker.io/garethgeorge/backrest:latest
+    systemctl --user daemon-reload
+    systemctl --user restart backrest.service # Quadlet units start at login via [Install]
+    systemctl --user enable --now podman-auto-update.timer # for AutoUpdate=registry
+    loginctl enable-linger "$USER" # keep scheduled backups running when logged out
+    echo "    Backrest UI: http://localhost:9898"
+}
+
 # --- runner ------------------------------------------------------------------
 
 REBOOT_NEEDED=0
@@ -135,7 +161,11 @@ main() {
 
     case "${1:-}" in
         -h | --help) usage; exit 0 ;;
-        -l | --list) printf '%s\n' "${STEPS[@]}"; exit 0 ;;
+        -l | --list)
+            printf '%s\n' "${STEPS[@]}"
+            printf '%s (optional)\n' "${OPTIONAL_STEPS[@]}"
+            exit 0
+            ;;
     esac
 
     local steps=("$@")

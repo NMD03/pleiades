@@ -1,0 +1,30 @@
+# Backrest (web UI + scheduler for restic backups) as a rootless Podman Quadlet.
+# Installed to ~/.config/containers/systemd/ by `pleiades-setup backrest`.
+# UI: http://localhost:9898   Docs: doc/backup.md
+
+[Unit]
+Description=Backrest (restic backups)
+
+[Container]
+Image=docker.io/garethgeorge/backrest:latest
+ContainerName=backrest
+PublishPort=127.0.0.1:9898:9898
+Environment=BACKREST_PORT=0.0.0.0:9898
+Environment=BACKREST_DATA=/data
+Environment=BACKREST_CONFIG=/config/config.json
+Environment=XDG_CACHE_HOME=/cache
+Volume=%h/.local/share/backrest/data:/data:Z
+Volume=%h/.local/share/backrest/config:/config:Z
+Volume=%h/.cache/backrest:/cache:Z
+# Home is backed up read-only; no :Z here, relabelling all of $HOME breaks other apps
+Volume=%h:/userdata:ro
+Volume=%h/restore:/restore:Z
+# Run as your own user inside the container so it can read your files
+UserNS=keep-id
+AutoUpdate=registry
+
+[Service]
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

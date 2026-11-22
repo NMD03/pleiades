@@ -96,6 +96,15 @@ distrobox create \
     --image localhost/<OS>
 ```
 
+# Backups (optional)
+
+Not part of the default steps. Installs the Backrest backup UI, see
+[backup.md](./backup.md):
+
+```
+pleiades-setup backrest
+```
+
 # Reboot
 ```
 reboot
