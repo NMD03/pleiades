@@ -62,6 +62,21 @@ sudo incus admin init
 
 The group membership takes effect after the reboot at the end.
 
+# Podman API (compose)
+
+Enables the rootless Docker-compatible API, so `podman compose` (backed by
+`docker-compose`) can run compose projects, including `develop: watch`:
+
+```
+systemctl --user enable --now podman.socket
+```
+
+Example:
+
+```
+podman compose -f compose.yaml -f compose.dev.yaml up --build --watch
+```
+
 # Distrobox
 
 Requires the dotfiles step above (`assemble.ini` comes from there).
