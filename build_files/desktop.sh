@@ -6,7 +6,7 @@ DESKTOP_PACKAGES=(
     sway-systemd # starts graphical-session.target, required by xdg-desktop-portal
     wl-mirror # screen mirroring, see pleiades-mirror
     swaybg 
-    swaylock 
+    gtklock # lock screen, styled in /etc/xdg/gtklock/style.css
     swayidle 
     alacritty 
     i3status 
