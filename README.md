@@ -3,10 +3,9 @@
 The Pleiades, also known as the Seven Sisters or Messier 45 (M45), is a young open star cluster in the constellation Taurus. Its brightest members are hot, blue stars that form a tight grouping visible to the unaided eye.
 
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./doc/img/pleiades_logo_dark.png">
-    <img alt="Pleiades logo" src="./doc/img/pleiades_logo_light.png" width="400">
-  </picture>
+  <!-- #gh-*-mode-only follows the GitHub theme; <picture> would follow the OS theme -->
+  <img alt="Pleiades logo" src="./doc/img/pleiades_logo_light.png#gh-light-mode-only" width="400">
+  <img alt="Pleiades logo" src="./doc/img/pleiades_logo_dark.png#gh-dark-mode-only" width="400">
 </p>
 
 Pleiades is a Fedora-based Linux workstation built around the Sway Wayland compositor. It ships a configured desktop, command-line development tools, and support for Flatpak and Incus.
