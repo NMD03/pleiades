@@ -25,3 +25,9 @@ flowchart TD
 The [`Containerfile`](./Containerfile) starts from Universal Blue’s Fedora-based `ghcr.io/ublue-os/base-main:latest` image. It copies the defaults from [`system_files/`](./system_files/), runs the scripts in [`build_files/`](./build_files/) to install packages and enable services, and checks the result with `bootc container lint`.
 
 [GitHub Actions](./.github/workflows/build.yml) builds the image with Buildah and publishes it to [GitHub Container Registry](https://github.com/NMD03/pleiades/pkgs/container/pleiades). For a fresh installation, `bootc-image-builder` packages the image into an ISO with the Anaconda installer. Once installed, the system gets updates directly from its configured registry tag.
+
+## Documentation
+
+- [Desktop environment](./doc/desktop.md)
+- [External monitors and shortcuts](./doc/monitors.md)
+- [First boot setup](./doc/first_boot.md)

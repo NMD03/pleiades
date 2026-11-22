@@ -4,6 +4,7 @@ set -ouex pipefail
 DESKTOP_PACKAGES=(
     sway 
     sway-systemd # starts graphical-session.target, required by xdg-desktop-portal
+    wl-mirror # screen mirroring, see pleiades-mirror
     swaybg 
     swaylock 
     swayidle 

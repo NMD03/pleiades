@@ -247,6 +247,18 @@ exec_always swayidle -w \
 bindsym $mod+Ctrl+l exec swaylock
 bindsym --locked $mod+Shift+n exec sh -c 'if [ "$(dunstctl get-pause-level)" = "0" ]; then dunstify -a sway-system "Notifications" "Disabled" -t 1500; dunstctl set-pause-level 100; else dunstctl set-pause-level 0; dunstify -a sway-system "Notifications" "Enabled" -t 1500; fi'
 
+# Monitors (see doc/monitors.md in the pleiades repo)
+bindsym $mod+Shift+p exec pleiades-mirror
+bindsym $mod+Shift+m move container to output next
+bindsym $mod+Ctrl+Left focus output left
+bindsym $mod+Ctrl+Right focus output right
+bindsym $mod+Ctrl+Up focus output up
+bindsym $mod+Ctrl+Down focus output down
+bindsym $mod+Ctrl+Shift+Left move workspace to output left
+bindsym $mod+Ctrl+Shift+Right move workspace to output right
+bindsym $mod+Ctrl+Shift+Up move workspace to output up
+bindsym $mod+Ctrl+Shift+Down move workspace to output down
+
 # Custom Settings
 for_window [class=".*"] border none
 
