@@ -11,6 +11,8 @@ Sway is used as desktop environment using the following additional software:
 - firefox (default browser)
 - grim (screenshots)
 - brightnessctl (adjusting brigthness)
+- mate-polkit (password dialog for admin actions, started from `/etc/sway/config.d/50-polkit-agent.conf`)
+- tuned-ppd (power profiles: `powerprofilesctl list`, `powerprofilesctl set power-saver|balanced|performance`)
 
 ## Start GUI session
 

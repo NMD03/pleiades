@@ -55,6 +55,8 @@ LAYERED_PACKAGES=(
     gnome-keyring
     gnome-keyring-pam # unlocks the keyring at greetd login (see /usr/lib/pam.d/greetd)
     libsecret
+    mate-polkit # password prompts for admin actions in the sway session
+    tuned-ppd # power profiles (powerprofilesctl), backed by tuned
 )
 
 dnf5 install --setopt=install_weak_deps=False -y "${LAYERED_PACKAGES[@]}"
@@ -73,4 +75,5 @@ fi
 
 # --- enable services ---
 systemctl enable incus.service
+systemctl enable tuned.service tuned-ppd.service
 getent group incus-admin || groupadd -r incus-admin
