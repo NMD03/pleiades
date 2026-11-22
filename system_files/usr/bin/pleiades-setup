@@ -20,6 +20,7 @@ STEPS=(
     dotfiles
     flatpaks
     incus
+    podman
     distrobox
 )
 
@@ -89,6 +90,15 @@ step_incus() {
     else
         sudo incus admin init
     fi
+}
+
+# Rootless Docker-compatible API, used by `podman compose` (docker-compose)
+step_podman() {
+    if systemctl --user is-enabled --quiet podman.socket; then
+        skip "podman.socket is already enabled"
+        return
+    fi
+    systemctl --user enable --now podman.socket
 }
 
 step_distrobox() {

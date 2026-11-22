@@ -36,6 +36,7 @@ LAYERED_PACKAGES=(
     incus-client
     incus-tools
     container-selinux
+    docker-compose # for `podman compose`, talks to podman.socket
     shadow-utils
     openssl-devel 
     pkgconf-pkg-config 
