@@ -27,6 +27,7 @@ STEPS=(
 # Only run when named explicitly, e.g. `pleiades-setup backrest`
 OPTIONAL_STEPS=(
     backrest
+    steam
 )
 
 DOTFILES_REPO="https://github.com/NMD03/dotfiles"
@@ -143,6 +144,17 @@ step_backrest() {
     systemctl --user enable --now podman-auto-update.timer # for AutoUpdate=registry
     loginctl enable-linger "$USER" # keep scheduled backups running when logged out
     echo "    Backrest UI: http://localhost:9898"
+}
+
+# Steam as Flatpak; controller access comes from steam-devices in the image
+step_steam() {
+    if flatpak info com.valvesoftware.Steam >/dev/null 2>&1; then
+        skip "Steam is already installed"
+        return
+    fi
+    flatpak install -y flathub com.valvesoftware.Steam
+    echo "    Start: flatpak run com.valvesoftware.Steam"
+    echo "    Windows games: Steam > Settings > Compatibility > enable Steam Play"
 }
 
 # --- runner ------------------------------------------------------------------

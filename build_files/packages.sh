@@ -56,6 +56,7 @@ LAYERED_PACKAGES=(
     gnome-keyring-pam # unlocks the keyring at greetd login (see /usr/lib/pam.d/greetd)
     libsecret
     nss-tools # certutil: add CAs to ~/.pki/nssdb for Chromium/Electron apps
+    steam-devices # udev rules so Steam (Flatpak, optional) can use controllers/VR
     mate-polkit # password prompts for admin actions in the sway session
     tuned-ppd # power profiles (powerprofilesctl), backed by tuned
 )

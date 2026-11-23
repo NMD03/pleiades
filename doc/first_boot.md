@@ -101,6 +101,19 @@ Not part of the default steps. Installs the Backrest backup UI, see
 pleiades-setup backrest
 ```
 
+# Steam (optional)
+
+Not part of the default steps. Installs Steam as Flatpak
+(`com.valvesoftware.Steam`); controller support comes from the
+`steam-devices` rules already in the image:
+
+```
+pleiades-setup steam
+```
+
+For Windows games enable Steam Play (Proton) in Steam's settings. Needs Intel
+or AMD graphics; NVIDIA requires an NVIDIA-enabled base image.
+
 # Reboot
 ```
 reboot
