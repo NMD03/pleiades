@@ -6,7 +6,7 @@ Sway is used as desktop environment using the following additional software:
 - kickoff (app launcher)
 - alacritty (default terminal)
 - dunst (notification service)
-- gtklock (lock screen, tuigreet look: `/etc/xdg/gtklock/style.css`, override in `~/.config/gtklock/style.css`; `$mod+Ctrl+l`, screen off 10 s after locking, locks before suspend)
+- gtklock (lock screen, tuigreet look: `/etc/xdg/gtklock/style.css`, override in `~/.config/gtklock/style.css`; `$mod+Ctrl+l`, screen off 10 s after locking, suspend after 5 min if still locked, locks before suspend)
 - greetd + tuigreet (login manager)
 - firefox (default browser)
 - grim (screenshots)
